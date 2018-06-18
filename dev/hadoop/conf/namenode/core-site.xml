@@ -1,0 +1,10 @@
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://{{node.name.ip}}:{{node.name.port}}</value>
+    </property>
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>file:///data/tmp/</value>
+    </property>
+</configuration>
