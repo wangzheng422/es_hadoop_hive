@@ -1,5 +1,5 @@
 FROM index.alauda.cn/tutum/ubuntu:14.04
-MAINTAINER daniel@alauda.io
+
 
 RUN apt-get update && apt-get install -y openjdk-7-jdk curl
 
