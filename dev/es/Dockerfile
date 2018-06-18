@@ -17,3 +17,7 @@ RUN chown elasticsearch:elasticsearch config/elasticsearch.yml
 USER elasticsearch
 
 RUN bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes:5.4.2
+
+RUN bin/elasticsearch-plugin install ingest-geoip
+
+RUN bin/elasticsearch-plugin install ingest-user-agent
