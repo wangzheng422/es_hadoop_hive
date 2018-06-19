@@ -151,7 +151,7 @@ index.number_of_replicas: 1
 # space on creation. For example:
 #
 # path.data: /path/to/data1,/path/to/data2
-path.data: /mnt/es_data/
+# path.data: /mnt/es_data/
 
 # Path to temporary files:
 #
@@ -160,7 +160,7 @@ path.data: /mnt/es_data/
 # Path to log files:
 #
 # path.logs: /path/to/logs
-path.logs: /mnt/es_logs/
+# path.logs: /mnt/es_logs/
 
 # Path to where plugins are installed:
 #
@@ -382,4 +382,8 @@ network.host: 0.0.0.0
 # minimum_master_nodes need to be explicitly set when bound on a public IP
 # set to 1 to allow single node clusters
 # Details: https://github.com/elastic/elasticsearch/pull/17288
-discovery.zen.minimum_master_nodes: 1
+#discovery.zen.minimum_master_nodes: 1
+
+discovery.zen:
+      minimum_master_nodes: 1
+      ping.unicast.hosts: elasticsearch-cluster
