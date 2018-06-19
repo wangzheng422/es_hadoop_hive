@@ -19,7 +19,7 @@ sed "s/{{GIT_HOST}}/${GIT_HOST}/g" | \
 sed "s/{{REGISTRY}}/${REGISTRY}/g" | \
 sed "s/{{REGION}}/${REGION}/g" | \
 sed "s/{{NGINX}}/${NGINX}/g"  \
-> k8s-tmp.yaml
+> k8s-tmp.yml
 
 echo "use k8s-tmp.yaml to deploy the app"
 
