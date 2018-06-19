@@ -23,3 +23,7 @@ sed "s/{{NGINX}}/${NGINX}/g"  \
 
 echo "use k8s-tmp.yaml to deploy the app"
 
+docker build -t ${REGISTRY}/es ./
+
+docker push ${REGISTRY}/es
+
