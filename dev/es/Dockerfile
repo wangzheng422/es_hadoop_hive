@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.3
 
 USER root
 
@@ -16,8 +16,8 @@ RUN chown elasticsearch:elasticsearch config/elasticsearch.yml
 
 USER elasticsearch
 
-RUN bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes:6.2.4
+RUN bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes:6.2.3.2
 
-RUN bin/elasticsearch-plugin install ingest-geoip:6.2.4
+RUN bin/elasticsearch-plugin install ingest-geoip
 
-RUN bin/elasticsearch-plugin install ingest-user-agent:6.2.4
+RUN bin/elasticsearch-plugin install ingest-user-agent
