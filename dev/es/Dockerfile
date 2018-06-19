@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:5.4.2
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.2.4
 
 USER root
 
@@ -16,7 +16,7 @@ RUN chown elasticsearch:elasticsearch config/elasticsearch.yml
 
 USER elasticsearch
 
-RUN bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes:5.4.2
+RUN bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes
 
 RUN bin/elasticsearch-plugin install ingest-geoip
 
