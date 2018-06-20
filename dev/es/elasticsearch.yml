@@ -4,7 +4,7 @@
 # Cluster name identifies your cluster for auto-discovery. If you're running
 # multiple clusters on the same network, make sure you're using unique names.
 #
-# cluster.name: od-fts1
+cluster.name: elasticsearch
 
 
 #################################### Node #####################################
@@ -361,7 +361,7 @@ network.host: 0.0.0.0
 
 discovery.zen:
       minimum_master_nodes: 1
-      ping.unicast.hosts: elasticsearch-cluster
+      ping.unicast.hosts: elasticsearch
 
 transport.host: localhost
 transport.tcp.port: 9300
