@@ -4,8 +4,7 @@
 # Cluster name identifies your cluster for auto-discovery. If you're running
 # multiple clusters on the same network, make sure you're using unique names.
 #
-cluster.name: elasticsearch
-
+# cluster.name: elasticsearch
 
 #################################### Node #####################################
 
@@ -19,11 +18,11 @@ cluster.name: elasticsearch
 #
 # Allow this node to be eligible as a master node (enabled by default):
 #
-node.master: true
+# node.master: true
 #
 # Allow this node to store data (enabled by default):
 #
-node.data: true
+# node.data: true
 
 # You can exploit these settings to design advanced cluster topologies.
 #
@@ -268,7 +267,7 @@ node.data: true
 
 # Set to throttle throughput when recovering (eg. 100mb, by default 20mb):
 #
-indices.recovery.max_bytes_per_sec: 100mb
+# indices.recovery.max_bytes_per_sec: 100mb
 
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
@@ -350,14 +349,18 @@ indices.recovery.max_bytes_per_sec: 100mb
 #monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
 
 
-network.host: 0.0.0.0
-
 #processors: ${PROCESSORS:}
 
 # minimum_master_nodes need to be explicitly set when bound on a public IP
 # set to 1 to allow single node clusters
 # Details: https://github.com/elastic/elasticsearch/pull/17288
 #discovery.zen.minimum_master_nodes: 1
+
+cluster.name: elasticsearch
+node.master: true
+node.data: true
+
+network.host: 0.0.0.0
 
 discovery.zen:
       minimum_master_nodes: 3 # for 4 node cluster
