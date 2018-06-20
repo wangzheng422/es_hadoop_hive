@@ -8,7 +8,7 @@ RUN cd /tmp \
     && curl -o /usr/bin/jq -SL "https://github.com/stedolan/jq/releases/download/jq-$JQ_VERSION/jq-linux64" \
     && echo "$JQ_SHA256  /usr/bin/jq" | sha256sum -c - \
     && chmod +x /usr/bin/jq \
-    && yum install -y net-tools
+    && yum install -y net-tools bind-utils
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_c_customized_image
 ADD elasticsearch.yml /usr/share/elasticsearch/config/
