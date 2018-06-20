@@ -57,7 +57,7 @@ spec:
       containers:
       - env:
         - name: ES_JAVA_OPTS
-          value: -Xms512m -Xmx8G
+          value: -Xms8G -Xmx8G
         - name: ALB_IP
           value: {{ALB_IP}}
         name: elasticsearch
