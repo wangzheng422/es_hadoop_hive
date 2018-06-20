@@ -43,6 +43,8 @@ metadata:
   namespace: {{REGION}}
 spec:
   replicas: 4
+  selector:
+    es: node
   strategy:
     type: RollingUpdate
   template:
@@ -54,16 +56,16 @@ spec:
       containers:
       - env:
         - name: ES_JAVA_OPTS
-          value: -Xms512m -Xmx16G
+          value: -Xms512m -Xmx8G
         - name: ALB_IP
           value: {{ALB_IP}}
         name: elasticsearch
-        image: 10.11.0.6:5000/es:latest
+        image: {{REGISTRY}}/es:latest
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "4"
-            memory: 16G
+            cpu: "2"
+            memory: 8G
         ports:
           - containerPort: 9200
             name: "http"
