@@ -360,7 +360,7 @@ network.host: 0.0.0.0
 #discovery.zen.minimum_master_nodes: 1
 
 discovery.zen:
-      minimum_master_nodes: 1
+      minimum_master_nodes: 3 # for 4 node cluster
       ping.unicast.hosts: elasticsearch-cluster
 
 transport.host: 0.0.0.0
