@@ -30,5 +30,5 @@ docker push ${REGISTRY}/elasticsearch-hq
 
 docker save ${REGISTRY}/es | gzip -c > tmp/es.tgz
 docker save ${REGISTRY}/kibana | gzip -c > tmp/kibana.tgz
-docker save elastichq/elasticsearch-hq | gzip -c > tmp/hq.tgz
+docker save ${REGISTRY}/elasticsearch-hq | gzip -c > tmp/hq.tgz
 
