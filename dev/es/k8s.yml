@@ -188,7 +188,7 @@ spec:
     spec:
       containers:
       - env:
-        - name: elasticsearch.url
+        - name: HQ_DEFAULT_URL
           value: http://elasticsearch:9200
         - name: ALB_IP
           value: {{ALB_IP}}
