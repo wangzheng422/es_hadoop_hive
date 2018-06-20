@@ -19,15 +19,16 @@ echo "use k8s-tmp.yaml to deploy the app"
 docker build -t ${REGISTRY}/es ./
 
 docker push ${REGISTRY}/es
-# docker save ${REGISTRY}/es | gzip -c > tmp/es.tgz
 
 docker pull docker.elastic.co/kibana/kibana-oss:6.2.3
 docker tag docker.elastic.co/kibana/kibana-oss:6.2.3 ${REGISTRY}/kibana
 docker push ${REGISTRY}/kibana
-# docker save ${REGISTRY}/kibana | gzip -c > tmp/kibana.tgz
 
 docker pull elastichq/elasticsearch-hq 
 docker tag elastichq/elasticsearch-hq  ${REGISTRY}/elasticsearch-hq
 docker push ${REGISTRY}/elasticsearch-hq
-# docker save elastichq/elasticsearch-hq | gzip -c > tmp/hq.tgz
+
+docker save ${REGISTRY}/es | gzip -c > tmp/es.tgz
+docker save ${REGISTRY}/kibana | gzip -c > tmp/kibana.tgz
+docker save elastichq/elasticsearch-hq | gzip -c > tmp/hq.tgz
 
