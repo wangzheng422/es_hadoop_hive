@@ -3,14 +3,7 @@
 set -e
 set -x
 
-export ONE_BOX=10.11.0.4
-export REGION=alauda01
-export SPACE_NAME=global
-export REGISTRY=10.11.0.6:5000
-export ALB_IP=10.11.0.6
-export GIT_HOST=10.11.0.5:9988
-export NGINX=nginx-10-11-0-6
-export AUTH_TOKEN=97898f42b8c95098df3f82037f43bf13fa33ff53
+source config.sh
 
 
 cat k8s.yml | \
@@ -26,4 +19,16 @@ echo "use k8s-tmp.yaml to deploy the app"
 docker build -t ${REGISTRY}/es ./
 
 docker push ${REGISTRY}/es
+
+docker save ${REGISTRY}/es | gzip -c > tmp/es.tgz
+
+docker pull docker.elastic.co/kibana/kibana-oss:6.2.3
+docker tag docker.elastic.co/kibana/kibana-oss:6.2.3 ${REGISTRY}/kibana
+docker push ${REGISTRY}/kibana
+docker save ${REGISTRY}/kibana | gzip -c tmp/kibana.tgz
+
+docker pull elastichq/elasticsearch-hq 
+docker tag elastichq/elasticsearch-hq  ${REGISTRY}/elasticsearch-hq
+docker push ${REGISTRY}/elasticsearch-hq
+docker save elastichq/elasticsearch-hq | gzip -c tmp/hq.tgz
 
