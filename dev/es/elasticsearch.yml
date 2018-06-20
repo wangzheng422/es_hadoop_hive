@@ -227,18 +227,18 @@ bootstrap.mlockall: true
 
 # Allow recovery process after N nodes in a cluster are up:
 #
-gateway.recover_after_nodes: 1
+# gateway.recover_after_nodes: 1
 
 # Set the timeout to initiate the recovery process, once the N nodes
 # from previous setting are up (accepts time value):
 #
-gateway.recover_after_time: 10m
+# gateway.recover_after_time: 10m
 
 # Set how many nodes are expected in this cluster. Once these N nodes
 # are up (and recover_after_nodes is met), begin recovery process immediately
 # (without waiting for recover_after_time to expire):
 #
-gateway.expected_nodes: 2
+# gateway.expected_nodes: 2
 
 # Require explicit index creation
 # action.auto_create_index: false
@@ -246,9 +246,9 @@ gateway.expected_nodes: 2
 # Protect against accidental close/delete operations
 # on all indices. You can still close/delete individual
 # indices
-action.disable_close_all_indices: true
-action.disable_delete_all_indices: true
-action.disable_shutdown: true
+# action.disable_close_all_indices: true
+# action.disable_delete_all_indices: true
+# action.disable_shutdown: true
 
 ############################# Recovery Throttling #############################
 
