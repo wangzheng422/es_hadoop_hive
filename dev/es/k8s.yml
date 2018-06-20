@@ -44,7 +44,8 @@ metadata:
 spec:
   replicas: 4
   selector:
-    es: node
+    matchLabels:
+      component: elasticsearch
   strategy:
     type: RollingUpdate
   template:
@@ -75,8 +76,19 @@ spec:
               - mountPath: "/usr/share/elasticsearch/data"
                 name: "elasticsearch-data"
                 readOnly: false
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - elasticsearch
+            topologyKey: "kubernetes.io/hostname"
       volumes:
         - hostPath:
             path: /alauda_data/es_data
             type: Directory
           name: "elasticsearch-data"
+      nodeSelector:
+        es: node
