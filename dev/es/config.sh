@@ -13,7 +13,7 @@ export NGINX=nginx-10-11-0-6
 export AUTH_TOKEN=97898f42b8c95098df3f82037f43bf13fa33ff53
 
 # export ONE_BOX=11.11.174.85
-# export REGION=datelake_test
+# export REGION=datelake
 # export SPACE_NAME=global
 # export REGISTRY=11.11.157.144:5000
 # export ALB_IP=11.11.157.144
