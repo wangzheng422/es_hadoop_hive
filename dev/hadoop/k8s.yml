@@ -1,169 +1,231 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: elasticsearch
+  name: namenode
   namespace: {{REGION}}
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
-      component: elasticsearch
+      component: namenode
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        service.alauda.io/name: elasticsearch
-        component: elasticsearch
+        service.alauda.io/name: namenode
+        component: namenode
     spec:
       containers:
       - env:
-        - name: ES_JAVA_OPTS
-          value: -Xms8G -Xmx8G
-        - name: ALB_IP
-          value: {{ALB_IP}}
-        name: elasticsearch
-        image: {{REGISTRY}}/es:latest
+        - name: NODE_IPS
+          value: {{NODE_IPS}}
+        - name: NAME_NODE_ADDR
+          value: {{NAME_NODE_ADDR}}
+        - name: NAME_NODE_PORT
+          value: 9000
+        - name: SERVER_ROLE
+          value: "nn"
+        - name: FORMAT_NAMENODE
+          value: "true"
+        - name: TEST
+          value: "true"
+        - name: START_YARN
+          value: "true"
+        name: namenode
+        image: {{REGISTRY}}/hadoop:latest
         imagePullPolicy: Always
         resources:
           requests:
             cpu: "2"
-            memory: 8G
+            memory: 4G
         ports:
-          - containerPort: 9200
+          - containerPort: 8088
             name: "http"
-          - containerPort: 9300
+          - containerPort: 9000
+            name: "transport"
+          - containerPort: 50070
             name: "transport"
         volumeMounts:
-              - mountPath: "/usr/share/elasticsearch/data"
-                name: "elasticsearch-data"
-                readOnly: false
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: component
-                operator: In
-                values:
-                - elasticsearch
-            topologyKey: "kubernetes.io/hostname"
+          - mountPath: "/data/hdfs"
+            name: "hadoop-data"
+            readOnly: false
       volumes:
         - hostPath:
-            path: /alauda_data/es_data
+            path: /alauda_data/hadoop_data
             type: Directory
-          name: "elasticsearch-data"
+          name: "hadoop-data"
+      hostNetwork: true
       nodeSelector:
-        es: node
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    loadbalancer.alauda.io/bind: '[{"container_port":5601,"protocol":"tcp","name":"{{NGINX}}","port":5601}]'
-  labels:
-    service.alauda.io/name: kibana
-  name: kibana
-  namespace: {{REGION}}
-spec:
-  ports:
-  - port: 5601
-    protocol: TCP
-    targetPort: 5601
-  selector:
-    service.alauda.io/name: kibana
-  sessionAffinity: None
-  type: ClusterIP
+        hadoop: 1
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: kibana
+  name: datanode2
   namespace: {{REGION}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: kibana
+      component: datanode2
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        service.alauda.io/name: kibana
-        component: kibana
+        service.alauda.io/name: datanode2
+        component: datanode2
     spec:
       containers:
       - env:
-        - name: elasticsearch.url
-          value: http://elasticsearch:9200
-        - name: ALB_IP
-          value: {{ALB_IP}}
-        name: kibana
-        image: {{REGISTRY}}/kibana:latest
+        - name: NODE_IPS
+          value: {{NODE_IPS}}
+        - name: NAME_NODE_ADDR
+          value: {{NAME_NODE_ADDR}}
+        - name: NAME_NODE_PORT
+          value: 9000
+        - name: SERVER_ROLE
+          value: "dn"
+        - name: START_YARN
+          value: "true"
+        name: datanode
+        image: {{REGISTRY}}/hadoop:latest
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "1"
-            memory: 2G
+            cpu: "2"
+            memory: 4G
         ports:
-          - containerPort: 5601
+          - containerPort: 8088
             name: "http"
-
+          - containerPort: 9000
+            name: "transport"
+          - containerPort: 50070
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/data/hdfs"
+            name: "hadoop-data"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: /alauda_data/hadoop_data
+            type: Directory
+          name: "hadoop-data"
+      hostNetwork: true
       nodeSelector:
-        es: node
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    loadbalancer.alauda.io/bind: '[{"container_port":5000,"protocol":"tcp","name":"{{NGINX}}","port":15000}]'
-  labels:
-    service.alauda.io/name: elasticsearch-hq
-  name: elasticsearch-hq
-  namespace: {{REGION}}
-spec:
-  ports:
-  - port: 5000
-    protocol: TCP
-    targetPort: 5000
-  selector:
-    service.alauda.io/name: elasticsearch-hq
-  sessionAffinity: None
-  type: ClusterIP
+        hadoop: 2
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: elasticsearch-hq
+  name: datanode3
   namespace: {{REGION}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: elasticsearch-hq
+      component: datanode3
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        service.alauda.io/name: elasticsearch-hq
-        component: elasticsearch-hq
+        service.alauda.io/name: datanode3
+        component: datanode3
     spec:
       containers:
       - env:
-        - name: HQ_DEFAULT_URL
-          value: http://elasticsearch:9200
-        - name: ALB_IP
-          value: {{ALB_IP}}
-        name: elasticsearch-hq
-        image: {{REGISTRY}}/elasticsearch-hq:latest
+        - name: NODE_IPS
+          value: {{NODE_IPS}}
+        - name: NAME_NODE_ADDR
+          value: {{NAME_NODE_ADDR}}
+        - name: NAME_NODE_PORT
+          value: 9000
+        - name: SERVER_ROLE
+          value: "dn"
+        - name: START_YARN
+          value: "true"
+        name: datanode
+        image: {{REGISTRY}}/hadoop:latest
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "1"
-            memory: 2G
+            cpu: "2"
+            memory: 4G
         ports:
-          - containerPort: 5000
+          - containerPort: 8088
             name: "http"
+          - containerPort: 9000
+            name: "transport"
+          - containerPort: 50070
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/data/hdfs"
+            name: "hadoop-data"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: /alauda_data/hadoop_data
+            type: Directory
+          name: "hadoop-data"
+      hostNetwork: true
       nodeSelector:
-        es: node
+        hadoop: 3
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: datanode4
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: datanode4
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: datanode4
+        component: datanode4
+    spec:
+      containers:
+      - env:
+        - name: NODE_IPS
+          value: {{NODE_IPS}}
+        - name: NAME_NODE_ADDR
+          value: {{NAME_NODE_ADDR}}
+        - name: NAME_NODE_PORT
+          value: 9000
+        - name: SERVER_ROLE
+          value: "dn"
+        - name: START_YARN
+          value: "true"
+        name: datanode
+        image: {{REGISTRY}}/hadoop:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 4G
+        ports:
+          - containerPort: 8088
+            name: "http"
+          - containerPort: 9000
+            name: "transport"
+          - containerPort: 50070
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/data/hdfs"
+            name: "hadoop-data"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: /alauda_data/hadoop_data
+            type: Directory
+          name: "hadoop-data"
+      hostNetwork: true
+      nodeSelector:
+        hadoop: 4
