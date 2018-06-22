@@ -19,11 +19,11 @@ spec:
       containers:
       - env:
         - name: NODE_IPS
-          value: {{NODE_IPS}}
+          value: "{{NODE_IPS}}"
         - name: NAME_NODE_ADDR
-          value: {{NAME_NODE_ADDR}}
+          value: "{{NAME_NODE_ADDR}}"
         - name: NAME_NODE_PORT
-          value: 9000
+          value: "9000"
         - name: SERVER_ROLE
           value: "nn"
         - name: FORMAT_NAMENODE
@@ -38,14 +38,14 @@ spec:
         resources:
           requests:
             cpu: "2"
-            memory: 4G
+            memory: "4G"
         ports:
           - containerPort: 8088
             name: "http"
           - containerPort: 9000
             name: "transport"
           - containerPort: 50070
-            name: "transport"
+            name: "namenode-webui"
         volumeMounts:
           - mountPath: "/data/hdfs"
             name: "hadoop-data"
@@ -57,7 +57,7 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: 1
+        hadoop: "1"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -80,11 +80,11 @@ spec:
       containers:
       - env:
         - name: NODE_IPS
-          value: {{NODE_IPS}}
+          value: "{{NODE_IPS}}"
         - name: NAME_NODE_ADDR
-          value: {{NAME_NODE_ADDR}}
+          value: "{{NAME_NODE_ADDR}}"
         - name: NAME_NODE_PORT
-          value: 9000
+          value: "9000"
         - name: SERVER_ROLE
           value: "dn"
         - name: START_YARN
@@ -102,7 +102,7 @@ spec:
           - containerPort: 9000
             name: "transport"
           - containerPort: 50070
-            name: "transport"
+            name: "namenode-webui"
         volumeMounts:
           - mountPath: "/data/hdfs"
             name: "hadoop-data"
@@ -114,7 +114,7 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: 2
+        hadoop: "2"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -137,11 +137,11 @@ spec:
       containers:
       - env:
         - name: NODE_IPS
-          value: {{NODE_IPS}}
+          value: "{{NODE_IPS}}"
         - name: NAME_NODE_ADDR
-          value: {{NAME_NODE_ADDR}}
+          value: "{{NAME_NODE_ADDR}}"
         - name: NAME_NODE_PORT
-          value: 9000
+          value: "9000"
         - name: SERVER_ROLE
           value: "dn"
         - name: START_YARN
@@ -159,7 +159,7 @@ spec:
           - containerPort: 9000
             name: "transport"
           - containerPort: 50070
-            name: "transport"
+            name: "namenode-webui"
         volumeMounts:
           - mountPath: "/data/hdfs"
             name: "hadoop-data"
@@ -171,7 +171,7 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: 3
+        hadoop: "3"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -194,11 +194,11 @@ spec:
       containers:
       - env:
         - name: NODE_IPS
-          value: {{NODE_IPS}}
+          value: "{{NODE_IPS}}"
         - name: NAME_NODE_ADDR
-          value: {{NAME_NODE_ADDR}}
+          value: "{{NAME_NODE_ADDR}}"
         - name: NAME_NODE_PORT
-          value: 9000
+          value: "9000"
         - name: SERVER_ROLE
           value: "dn"
         - name: START_YARN
@@ -216,7 +216,7 @@ spec:
           - containerPort: 9000
             name: "transport"
           - containerPort: 50070
-            name: "transport"
+            name: "namenode-webui"
         volumeMounts:
           - mountPath: "/data/hdfs"
             name: "hadoop-data"
@@ -228,4 +228,4 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: 4
+        hadoop: "4"
