@@ -1,14 +1,14 @@
-FROM ubuntu:16.04
+FROM phusion/baseimage
 
 
-RUN apt-get update && apt-get install -y openjdk-7-jdk curl
+RUN apt-get update && apt-get install -y openjdk-8-jdk curl
 
 RUN mkdir -p /data/hdfs/
 RUN mkdir -p /opt
 WORKDIR /opt
 
 # Install Hadoop
-RUN curl -L http://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz -s -o - | tar -xzf -
+RUN curl -L http://ftp.cuhk.edu.hk/pub/packages/apache.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz -s -o - | tar -xzf -
 RUN mv hadoop-2.* hadoop
 ENV HADOOP_HOME /opt/hadoop
 

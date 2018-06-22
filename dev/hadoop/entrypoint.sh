@@ -4,7 +4,7 @@
 PREFIX="-------- "
 echo $PREFIX"Bootstraping hadoop..."
 
-SSH_NEW_PORT=2222
+SSH_NEW_PORT=22
 
 if [ "$SSH_PORT" !=  "" ]; then
   SSH_NEW_PORT=$SSH_PORT

@@ -1,0 +1,169 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: {{REGION}}
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      component: elasticsearch
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: elasticsearch
+        component: elasticsearch
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xms8G -Xmx8G
+        - name: ALB_IP
+          value: {{ALB_IP}}
+        name: elasticsearch
+        image: {{REGISTRY}}/es:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8G
+        ports:
+          - containerPort: 9200
+            name: "http"
+          - containerPort: 9300
+            name: "transport"
+        volumeMounts:
+              - mountPath: "/usr/share/elasticsearch/data"
+                name: "elasticsearch-data"
+                readOnly: false
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - elasticsearch
+            topologyKey: "kubernetes.io/hostname"
+      volumes:
+        - hostPath:
+            path: /alauda_data/es_data
+            type: Directory
+          name: "elasticsearch-data"
+      nodeSelector:
+        es: node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    loadbalancer.alauda.io/bind: '[{"container_port":5601,"protocol":"tcp","name":"{{NGINX}}","port":5601}]'
+  labels:
+    service.alauda.io/name: kibana
+  name: kibana
+  namespace: {{REGION}}
+spec:
+  ports:
+  - port: 5601
+    protocol: TCP
+    targetPort: 5601
+  selector:
+    service.alauda.io/name: kibana
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: kibana
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: kibana
+        component: kibana
+    spec:
+      containers:
+      - env:
+        - name: elasticsearch.url
+          value: http://elasticsearch:9200
+        - name: ALB_IP
+          value: {{ALB_IP}}
+        name: kibana
+        image: {{REGISTRY}}/kibana:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2G
+        ports:
+          - containerPort: 5601
+            name: "http"
+
+      nodeSelector:
+        es: node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    loadbalancer.alauda.io/bind: '[{"container_port":5000,"protocol":"tcp","name":"{{NGINX}}","port":15000}]'
+  labels:
+    service.alauda.io/name: elasticsearch-hq
+  name: elasticsearch-hq
+  namespace: {{REGION}}
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    service.alauda.io/name: elasticsearch-hq
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: elasticsearch-hq
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: elasticsearch-hq
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: elasticsearch-hq
+        component: elasticsearch-hq
+    spec:
+      containers:
+      - env:
+        - name: HQ_DEFAULT_URL
+          value: http://elasticsearch:9200
+        - name: ALB_IP
+          value: {{ALB_IP}}
+        name: elasticsearch-hq
+        image: {{REGISTRY}}/elasticsearch-hq:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2G
+        ports:
+          - containerPort: 5000
+            name: "http"
+      nodeSelector:
+        es: node
