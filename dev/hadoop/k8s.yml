@@ -39,15 +39,8 @@ spec:
           requests:
             cpu: "2"
             memory: "4G"
-        ports:
-          - containerPort: 8088
-            name: "http"
-          - containerPort: 9000
-            name: "transport"
-          - containerPort: 50070
-            name: "namenode-webui"
         volumeMounts:
-          - mountPath: "/data/hdfs"
+          - mountPath: "/data"
             name: "hadoop-data"
             readOnly: false
       volumes:
@@ -57,7 +50,57 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: "1"
+        hadoop: "nn1"
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: datanode1
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: datanode1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: datanode1
+        component: datanode1
+    spec:
+      containers:
+      - env:
+        - name: NODE_IPS
+          value: "{{NODE_IPS}}"
+        - name: NAME_NODE_ADDR
+          value: "{{NAME_NODE_ADDR}}"
+        - name: NAME_NODE_PORT
+          value: "9000"
+        - name: SERVER_ROLE
+          value: "dn"
+        - name: START_YARN
+          value: "true"
+        name: datanode
+        image: {{REGISTRY}}/hadoop:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 4G
+        volumeMounts:
+          - mountPath: "/data"
+            name: "hadoop-data"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: /alauda_data/hadoop_data
+            type: Directory
+          name: "hadoop-data"
+      hostNetwork: true
+      nodeSelector:
+        hadoop: "dn1"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -96,15 +139,8 @@ spec:
           requests:
             cpu: "2"
             memory: 4G
-        ports:
-          - containerPort: 8088
-            name: "http"
-          - containerPort: 9000
-            name: "transport"
-          - containerPort: 50070
-            name: "namenode-webui"
         volumeMounts:
-          - mountPath: "/data/hdfs"
+          - mountPath: "/data"
             name: "hadoop-data"
             readOnly: false
       volumes:
@@ -114,7 +150,7 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: "2"
+        hadoop: "dn2"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -153,15 +189,8 @@ spec:
           requests:
             cpu: "2"
             memory: 4G
-        ports:
-          - containerPort: 8088
-            name: "http"
-          - containerPort: 9000
-            name: "transport"
-          - containerPort: 50070
-            name: "namenode-webui"
         volumeMounts:
-          - mountPath: "/data/hdfs"
+          - mountPath: "/data"
             name: "hadoop-data"
             readOnly: false
       volumes:
@@ -171,61 +200,4 @@ spec:
           name: "hadoop-data"
       hostNetwork: true
       nodeSelector:
-        hadoop: "3"
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: datanode4
-  namespace: {{REGION}}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      component: datanode4
-  strategy:
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        service.alauda.io/name: datanode4
-        component: datanode4
-    spec:
-      containers:
-      - env:
-        - name: NODE_IPS
-          value: "{{NODE_IPS}}"
-        - name: NAME_NODE_ADDR
-          value: "{{NAME_NODE_ADDR}}"
-        - name: NAME_NODE_PORT
-          value: "9000"
-        - name: SERVER_ROLE
-          value: "dn"
-        - name: START_YARN
-          value: "true"
-        name: datanode
-        image: {{REGISTRY}}/hadoop:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: "2"
-            memory: 4G
-        ports:
-          - containerPort: 8088
-            name: "http"
-          - containerPort: 9000
-            name: "transport"
-          - containerPort: 50070
-            name: "namenode-webui"
-        volumeMounts:
-          - mountPath: "/data/hdfs"
-            name: "hadoop-data"
-            readOnly: false
-      volumes:
-        - hostPath:
-            path: /alauda_data/hadoop_data
-            type: Directory
-          name: "hadoop-data"
-      hostNetwork: true
-      nodeSelector:
-        hadoop: "4"
+        hadoop: "dn3"

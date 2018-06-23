@@ -13,7 +13,7 @@ spec:
     protocol: TCP
     targetPort: 9200
   selector:
-    service.alauda.io/name: elasticsearch
+    component: esnode
   sessionAffinity: None
   type: ClusterIP
 ---
@@ -31,66 +31,9 @@ spec:
     targetPort: 9300
   publishNotReadyAddresses: true
   selector:
-    component: elasticsearch
+    component: esnode
   sessionAffinity: None
   type: ClusterIP
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: elasticsearch
-  namespace: {{REGION}}
-spec:
-  replicas: 4
-  selector:
-    matchLabels:
-      component: elasticsearch
-  strategy:
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        service.alauda.io/name: elasticsearch
-        component: elasticsearch
-    spec:
-      containers:
-      - env:
-        - name: ES_JAVA_OPTS
-          value: -Xms8G -Xmx8G
-        - name: ALB_IP
-          value: {{ALB_IP}}
-        name: elasticsearch
-        image: {{REGISTRY}}/es:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: "2"
-            memory: 8G
-        ports:
-          - containerPort: 9200
-            name: "http"
-          - containerPort: 9300
-            name: "transport"
-        volumeMounts:
-              - mountPath: "/usr/share/elasticsearch/data"
-                name: "elasticsearch-data"
-                readOnly: false
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: component
-                operator: In
-                values:
-                - elasticsearch
-            topologyKey: "kubernetes.io/hostname"
-      volumes:
-        - hostPath:
-            path: /alauda_data/es_data
-            type: Directory
-          name: "elasticsearch-data"
-      nodeSelector:
-        es: node
 ---
 apiVersion: v1
 kind: Service
@@ -107,7 +50,7 @@ spec:
     protocol: TCP
     targetPort: 5601
   selector:
-    service.alauda.io/name: kibana
+    component: kibana
   sessionAffinity: None
   type: ClusterIP
 ---
@@ -164,7 +107,7 @@ spec:
     protocol: TCP
     targetPort: 5000
   selector:
-    service.alauda.io/name: elasticsearch-hq
+    component: elasticsearch-hq
   sessionAffinity: None
   type: ClusterIP
 ---
@@ -204,3 +147,223 @@ spec:
             name: "http"
       nodeSelector:
         es: node
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: esnode1
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service.alauda.io/name: esnode1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: esnode1
+        component: esnode
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xms8G -Xmx8G
+        - name: node.name
+          value: "10.11.0.7"
+        name: esnode
+        image: {{REGISTRY}}/es:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8G
+        ports:
+          - containerPort: 9200
+            name: "http"
+          - containerPort: 9300
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/usr/share/elasticsearch/data"
+            name: "elasticsearch-data"
+            readOnly: false
+          - mountPath: "/usr/share/elasticsearch/logs"
+            name: "elasticsearch-log"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: {{DIR_ES_DATA}}
+            type: Directory
+          name: "elasticsearch-data"
+        - hostPath:
+            path: {{DIR_ES_LOG}}
+            type: Directory
+          name: "elasticsearch-log"
+      nodeSelector:
+        esnode: "1"
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: esnode2
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service.alauda.io/name: esnode2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: esnode2
+        component: esnode
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xms8G -Xmx8G
+        - name: node.name
+          value: "10.11.0.8"
+        name: esnode
+        image: {{REGISTRY}}/es:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8G
+        ports:
+          - containerPort: 9200
+            name: "http"
+          - containerPort: 9300
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/usr/share/elasticsearch/data"
+            name: "elasticsearch-data"
+            readOnly: false
+          - mountPath: "/usr/share/elasticsearch/logs"
+            name: "elasticsearch-log"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: {{DIR_ES_DATA}}
+            type: Directory
+          name: "elasticsearch-data"
+        - hostPath:
+            path: {{DIR_ES_LOG}}
+            type: Directory
+          name: "elasticsearch-log"
+      nodeSelector:
+        esnode: "2"
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: esnode3
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service.alauda.io/name: esnode3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: esnode3
+        component: esnode
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xms8G -Xmx8G
+        - name: node.name
+          value: "10.11.0.9"
+        name: esnode
+        image: {{REGISTRY}}/es:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8G
+        ports:
+          - containerPort: 9200
+            name: "http"
+          - containerPort: 9300
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/usr/share/elasticsearch/data"
+            name: "elasticsearch-data"
+            readOnly: false
+          - mountPath: "/usr/share/elasticsearch/logs"
+            name: "elasticsearch-log"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: {{DIR_ES_DATA}}
+            type: Directory
+          name: "elasticsearch-data"
+        - hostPath:
+            path: {{DIR_ES_LOG}}
+            type: Directory
+          name: "elasticsearch-log"
+      nodeSelector:
+        esnode: "3"
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: esnode4
+  namespace: {{REGION}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service.alauda.io/name: esnode4
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service.alauda.io/name: esnode4
+        component: esnode
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xms8G -Xmx8G
+        - name: node.name
+          value: "10.11.0.9"
+        name: esnode
+        image: {{REGISTRY}}/es:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8G
+        ports:
+          - containerPort: 9200
+            name: "http"
+          - containerPort: 9300
+            name: "transport"
+        volumeMounts:
+          - mountPath: "/usr/share/elasticsearch/data"
+            name: "elasticsearch-data"
+            readOnly: false
+          - mountPath: "/usr/share/elasticsearch/logs"
+            name: "elasticsearch-log"
+            readOnly: false
+      volumes:
+        - hostPath:
+            path: {{DIR_ES_DATA}}
+            type: Directory
+          name: "elasticsearch-data"
+        - hostPath:
+            path: {{DIR_ES_LOG}}
+            type: Directory
+          name: "elasticsearch-log"
+      nodeSelector:
+        esnode: "4"
