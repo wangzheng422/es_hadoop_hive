@@ -8,8 +8,8 @@ RUN mkdir -p /opt
 WORKDIR /opt
 
 # Install Hadoop
-RUN curl -L http://ftp.cuhk.edu.hk/pub/packages/apache.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz -s -o - | tar -xzf -
-RUN mv hadoop-2.* hadoop
+RUN curl -L http://ftp.cuhk.edu.hk/pub/packages/apache.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz -s -o - | tar -xzf - && mv hadoop-2.* hadoop
+# RUN mv hadoop-2.* hadoop
 ENV HADOOP_HOME /opt/hadoop
 
 
