@@ -17,8 +17,8 @@ ENV HADOOP_HOME /opt/hadoop
 # Setup
 WORKDIR /opt/hadoop
 ENV PATH /opt/hadoop/bin:/opt/hadoop/sbin:$PATH
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
-RUN sed --in-place='.ori' -e "s/\${JAVA_HOME}/\/usr\/lib\/jvm\/java-7-openjdk-amd64/" etc/hadoop/hadoop-env.sh
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+RUN sed --in-place='.ori' -e "s/\${JAVA_HOME}/\/usr\/lib\/jvm\/java-8-openjdk-amd64/" etc/hadoop/hadoop-env.sh
 
 
 # Pseudo-Distributed Operation
