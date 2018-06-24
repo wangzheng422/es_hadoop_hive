@@ -213,5 +213,6 @@ fi
 
 
 echo $PREFIX"Tailing logs..."
-tail -f /opt/hadoop/logs/* &
+echo "first line" >> /opt/hadoop/logs/first
+tail -f /opt/hadoop/logs/* 
 wait || :
