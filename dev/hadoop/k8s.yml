@@ -28,8 +28,6 @@ spec:
           value: "nn"
         - name: FORMAT_NAMENODE
           value: "true"
-        - name: TEST
-          value: "true"
         - name: START_YARN
           value: "true"
         name: namenode

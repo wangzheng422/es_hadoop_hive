@@ -114,6 +114,8 @@ sed -i "s|{{yarn.vcores}}|$YARN_VCORES|g" $CONFIG_DIR/yarn-site.xml
 
 sed -i "s|{{node.name.ip}}|$NAMENODE_ADDRESS|g" $CONFIG_DIR/hdfs-site.xml
 sed -i "s|{{node.name.ip}}|$NAMENODE_ADDRESS|g" $CONFIG_DIR/core-site.xml
+sed -i "s|{{node.name.ip}}|$NAMENODE_ADDRESS|g" $CONFIG_DIR/mapred-site.xml
+sed -i "s|{{node.name.ip}}|$NAMENODE_ADDRESS|g" $CONFIG_DIR/yarn-site.xml
 
 sed -i "s|{{node.name.port}}|$NAMENODE_PORT|g" $CONFIG_DIR/hdfs-site.xml
 sed -i "s|{{node.name.port}}|$NAMENODE_PORT|g" $CONFIG_DIR/core-site.xml
