@@ -148,8 +148,8 @@ if [ "$NODE_IPS" != "" ]; then
     echo "  StrictHostKeyChecking no" >> ~/.ssh/config
     echo "" >> ~/.ssh/config
 
-    echo $PREFIX"Will try to connect to node "$addr
-    ssh -v $addr $HADOOP_SSH_OPTS exit
+    # echo $PREFIX"Will try to connect to node "$addr
+    # ssh -v $addr $HADOOP_SSH_OPTS exit
   done
 fi
 
