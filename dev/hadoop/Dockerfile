@@ -4,7 +4,7 @@ FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y openjdk-8-jdk curl ssh iproute2 net-tools dnsutils vim
 
 RUN mkdir -p /data/hdfs/
-RUN mkdir -p /opt/hadoop/logs
+RUN mkdir -p /opt
 WORKDIR /opt
 
 # Install Hadoop
@@ -46,5 +46,5 @@ VOLUME /data/
 COPY entrypoint.sh /
 COPY run-wordcount.sh /
 COPY conf/ssh_config /root/.ssh/config
-RUN chmod a+x /*.sh
+RUN chmod a+x /*.sh || mkdir -p /opt/hadoop/logs/
 ENTRYPOINT "/entrypoint.sh"
