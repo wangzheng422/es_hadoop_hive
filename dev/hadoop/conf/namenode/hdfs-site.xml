@@ -1,10 +1,10 @@
 <configuration>
     <property>
         <name>dfs.replication</name>
-        <value>1</value>
+        <value>3</value>
     </property>
     <property>
-       <name>dfs.permissions</name>
+       <name>dfs.permissions.enabled</name>
        <value>false</value>
    </property>
    <property>
@@ -25,11 +25,11 @@
     </property>
     <property>
          <name>dfs.namenode.http-address</name>
-         <value>0.0.0.0:{{node.name.webport}}</value>
+         <value>{{node.name.ip}}:{{node.name.webport}}</value>
          <description>Your NameNode hostname for http access.</description>
     </property>
     <property>
         <name>dfs.namenode.rpc-bind-host</name>
-        <value>0.0.0.0</value>
+        <value>{{node.name.ip}}</value>
     </property>
 </configuration>

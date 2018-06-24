@@ -17,6 +17,6 @@
     </property>
     <property>
         <name>dfs.namenode.rpc-bind-host</name>
-        <value>0.0.0.0</value>
+        <value>{{node.name.ip}}</value>
     </property>
 </configuration>

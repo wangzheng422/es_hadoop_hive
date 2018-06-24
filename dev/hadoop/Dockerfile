@@ -24,10 +24,12 @@ RUN sed --in-place='.ori' -e "s/\${JAVA_HOME}/\/usr\/lib\/jvm\/java-8-openjdk-am
 # Pseudo-Distributed Operation
 COPY conf/datanode/core-site.xml etc/hadoop/data-node-core-site.xml
 COPY conf/datanode/hdfs-site.xml etc/hadoop/data-node-hdfs-site.xml
+COPY conf/datanode/yarn-site.xml etc/hadoop/data-node-yarn-site.xml
+COPY conf/datanode/mapred-site.xml etc/hadoop/data-node-mapred-site.xml
 COPY conf/namenode/core-site.xml etc/hadoop/name-node-core-site.xml
 COPY conf/namenode/hdfs-site.xml etc/hadoop/name-node-hdfs-site.xml
-COPY conf/namenode/yarn-site.xml etc/hadoop/yarn-site.xml
-COPY conf/namenode/mapred-site.xml etc/hadoop/mapred-site.xml
+COPY conf/namenode/yarn-site.xml etc/hadoop/name-node-yarn-site.xml
+COPY conf/namenode/mapred-site.xml etc/hadoop/name-node-mapred-site.xml
 
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys

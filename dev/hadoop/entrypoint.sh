@@ -76,12 +76,16 @@ if [ "$SERVER_ROLE" = "dn" ]; then
 
   cp /opt/hadoop/etc/hadoop/data-node-core-site.xml /opt/hadoop/etc/hadoop/core-site.xml
   cp /opt/hadoop/etc/hadoop/data-node-hdfs-site.xml /opt/hadoop/etc/hadoop/hdfs-site.xml
+  cp /opt/hadoop/etc/hadoop/data-node-yarn-site.xml /opt/hadoop/etc/hadoop/yarn-site.xml
+  cp /opt/hadoop/etc/hadoop/data-node-mapred-site.xml /opt/hadoop/etc/hadoop/mapred-site.xml
 else
   # NAME NODE
   echo $PREFIX"Namenode configuration"
 
   cp /opt/hadoop/etc/hadoop/name-node-core-site.xml /opt/hadoop/etc/hadoop/core-site.xml
   cp /opt/hadoop/etc/hadoop/name-node-hdfs-site.xml /opt/hadoop/etc/hadoop/hdfs-site.xml
+  cp /opt/hadoop/etc/hadoop/name-node-yarn-site.xml /opt/hadoop/etc/hadoop/yarn-site.xml
+  cp /opt/hadoop/etc/hadoop/name-node-mapred-site.xml /opt/hadoop/etc/hadoop/mapred-site.xml
 fi
 
 if [ "$NAME_NODE_ADDR" != "" ]; then
@@ -165,7 +169,9 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     fi
 
     echo $PREFIX"Will start namenode in the background"
-    /opt/hadoop/bin/hdfs namenode &
+    # /opt/hadoop/bin/hdfs namenode &
+    start-dfs.sh
+    mr-jobhistory-daemon.sh start historyserver
 
     sleep 5
 
@@ -179,8 +185,11 @@ if [ "$SERVER_ROLE" = "nn" ]; then
 
       echo $PREFIX"Will start YARN services..."
       echo $PREFIX"Starting resource manager..."
-      /opt/hadoop/sbin/yarn-daemon.sh --config $CONFIG_DIR start resourcemanager
+      # /opt/hadoop/sbin/yarn-daemon.sh --config $CONFIG_DIR start resourcemanager
 
+      start-yarn.sh
+      yarn-daemon.sh start proxyserver
+      
     fi
 
     if [ "$TEST" = "true" ]; then
@@ -189,7 +198,7 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     fi
 else
     echo $PREFIX"Will start as data node"
-    /opt/hadoop/bin/hdfs datanode &
+    # /opt/hadoop/bin/hdfs datanode &
 
     sleep 5
 
@@ -198,7 +207,7 @@ else
       echo $PREFIX"Will start YARN services..."
 
       echo $PREFIX"Starting node manager..."
-      /opt/hadoop/sbin/yarn-daemons.sh --config $CONFIG_DIR start nodemanager
+      # /opt/hadoop/sbin/yarn-daemons.sh --config $CONFIG_DIR start nodemanager
     fi
 fi
 
