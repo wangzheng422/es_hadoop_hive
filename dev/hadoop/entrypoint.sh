@@ -170,6 +170,9 @@ if [ "$SERVER_ROLE" = "nn" ]; then
 
     echo $PREFIX"Will start namenode in the background"
     # /opt/hadoop/bin/hdfs namenode &
+
+    sleep 5
+
     start-dfs.sh
     mr-jobhistory-daemon.sh start historyserver
 
@@ -200,7 +203,7 @@ else
     echo $PREFIX"Will start as data node"
     # /opt/hadoop/bin/hdfs datanode &
 
-    sleep 5
+    # sleep 5
 
     if [ "$START_YARN" != "" ]; then
 
@@ -213,6 +216,7 @@ fi
 
 
 echo $PREFIX"Tailing logs..."
+mkdir -p /opt/hadoop/logs/
 echo "first line" > /opt/hadoop/logs/first
 tail -f /opt/hadoop/logs/* 
 wait || :
