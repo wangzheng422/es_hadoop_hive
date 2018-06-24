@@ -46,5 +46,5 @@ VOLUME /data/
 COPY entrypoint.sh /
 COPY run-wordcount.sh /
 COPY conf/ssh_config /root/.ssh/config
-RUN chmod a+x /*.sh || mkdir -p /opt/hadoop/logs/
+RUN chmod a+x /*.sh
 ENTRYPOINT "/entrypoint.sh"
