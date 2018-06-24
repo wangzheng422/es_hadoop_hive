@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 
-RUN apt-get update && apt-get install -y openjdk-8-jdk curl ssh iproute2 net-tools 
+RUN apt-get update && apt-get install -y openjdk-8-jdk curl ssh iproute2 net-tools dnsutils
 
 RUN mkdir -p /data/hdfs/
 RUN mkdir -p /opt
