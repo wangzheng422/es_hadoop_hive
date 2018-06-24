@@ -4,7 +4,7 @@
 PREFIX="-------- "
 echo $PREFIX"Bootstraping hadoop..."
 
-SSH_NEW_PORT=22
+SSH_NEW_PORT=12022
 
 if [ "$SSH_PORT" !=  "" ]; then
   SSH_NEW_PORT=$SSH_PORT
@@ -189,7 +189,7 @@ if [ "$SERVER_ROLE" = "nn" ]; then
 
       start-yarn.sh
       yarn-daemon.sh start proxyserver
-      
+
     fi
 
     if [ "$TEST" = "true" ]; then
