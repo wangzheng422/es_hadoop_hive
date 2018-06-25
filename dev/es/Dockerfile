@@ -21,3 +21,5 @@ USER elasticsearch
 # RUN bin/elasticsearch-plugin install ingest-geoip
 
 # RUN bin/elasticsearch-plugin install ingest-user-agent
+
+RUN bin/elasticsearch-plugin install repository-hdfs

@@ -170,7 +170,7 @@ spec:
         - name: ES_JAVA_OPTS
           value: -Xms8G -Xmx8G
         - name: node.name
-          value: "10.11.0.7"
+          value: "11.11.157.145"
         name: esnode
         image: {{REGISTRY}}/es:latest
         imagePullPolicy: Always
@@ -225,7 +225,7 @@ spec:
         - name: ES_JAVA_OPTS
           value: -Xms8G -Xmx8G
         - name: node.name
-          value: "10.11.0.8"
+          value: "11.11.157.146"
         name: esnode
         image: {{REGISTRY}}/es:latest
         imagePullPolicy: Always
@@ -280,7 +280,7 @@ spec:
         - name: ES_JAVA_OPTS
           value: -Xms8G -Xmx8G
         - name: node.name
-          value: "10.11.0.9"
+          value: "11.11.157.147"
         name: esnode
         image: {{REGISTRY}}/es:latest
         imagePullPolicy: Always
@@ -335,7 +335,7 @@ spec:
         - name: ES_JAVA_OPTS
           value: -Xms8G -Xmx8G
         - name: node.name
-          value: "10.11.0.10"
+          value: "11.11.157.148"
         name: esnode
         image: {{REGISTRY}}/es:latest
         imagePullPolicy: Always
