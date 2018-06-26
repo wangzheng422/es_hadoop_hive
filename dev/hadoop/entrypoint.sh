@@ -32,6 +32,8 @@ NAMENODE_ADDRESS=0.0.0.0
 NAMENODE_PORT=9000
 NAMENODE_WEBPORT=50070
 
+ALB_ADDR=0.0.0.0
+
 YARN_MIN_MB=128
 YARN_MAX_MB=2048
 YARN_MIN_VCORE=1
@@ -86,6 +88,8 @@ else
   cp /opt/hadoop/etc/hadoop/name-node-hdfs-site.xml /opt/hadoop/etc/hadoop/hdfs-site.xml
   cp /opt/hadoop/etc/hadoop/name-node-yarn-site.xml /opt/hadoop/etc/hadoop/yarn-site.xml
   cp /opt/hadoop/etc/hadoop/name-node-mapred-site.xml /opt/hadoop/etc/hadoop/mapred-site.xml
+
+  cp /opt/hive/conf/hive-node-hive-site.xml /opt/hive/conf/hive-site.xml
 fi
 
 if [ "$NAME_NODE_ADDR" != "" ]; then
@@ -178,7 +182,14 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     start-dfs.sh
     mr-jobhistory-daemon.sh start historyserver
 
-    sleep 5
+    sleep 60
+
+    hdfs dfs -mkdir -p /usr/hive/warehouse  
+    hdfs dfs -mkdir -p /usr/hive/tmp  
+    hdfs dfs -mkdir -p /usr/hive/log  
+    hdfs dfs -chmod g+w /usr/hive/warehouse  
+    hdfs dfs -chmod g+w /usr/hive/tmp  
+    hdfs dfs -chmod g+w /usr/hive/log  
 
     # Needs additional configuration !!!!
     # echo $PREFIX"Will start quorum journal in the background"

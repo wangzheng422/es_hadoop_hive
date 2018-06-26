@@ -22,7 +22,12 @@ docker build -t ${REGISTRY}/hadoop ./
 
 docker push ${REGISTRY}/hadoop
 
+docker pull mysql:5.7
+docker tag mysql:5.7 ${REGISTRY}/mysql:5.7
+docker push ${REGISTRY}/mysql:5.7
 
 docker save ${REGISTRY}/hadoop | gzip -c > tmp/hadoop.tgz
+docker save ${REGISTRY}/mysql:5.7 | gzip -c > tmp/mysql.5.7.tgz
+
 
 
