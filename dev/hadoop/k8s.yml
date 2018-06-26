@@ -90,6 +90,8 @@ spec:
           value: "true"
         - name: START_YARN
           value: "true"
+        - name: ALB_ADDR
+          value: "{{ALB_IP}}"
         name: namenode
         image: {{REGISTRY}}/hadoop:latest
         imagePullPolicy: Always

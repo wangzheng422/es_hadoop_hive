@@ -127,6 +127,9 @@ sed -i "s|{{node.name.port}}|$NAMENODE_PORT|g" $CONFIG_DIR/core-site.xml
 sed -i "s|{{node.name.webport}}|$NAMENODE_WEBPORT|g" $CONFIG_DIR/hdfs-site.xml
 sed -i "s|{{hdfs.data}}|$DEFAULT_DATA_DIR|g" $CONFIG_DIR/hdfs-site.xml
 
+sed -i "s|{{ALB_ADDR}}|$ALB_ADDR|g" /opt/hive/conf/hive-site.xml
+sed -i "s|{{NAME_NODE_ADDR}}|$NAMENODE_ADDRESS|g" /opt/hive/conf/hive-site.xml
+
 # debuging configuration
 if [ "$DEBUG" != "" ]; then
   cat $CONFIG_DIR/yarn-site.xml
@@ -190,6 +193,10 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     hdfs dfs -chmod g+w /usr/hive/warehouse  
     hdfs dfs -chmod g+w /usr/hive/tmp  
     hdfs dfs -chmod g+w /usr/hive/log  
+
+
+    echo $PREFIX"Starting ssh..."
+    service supervisor start;
 
     # Needs additional configuration !!!!
     # echo $PREFIX"Will start quorum journal in the background"
