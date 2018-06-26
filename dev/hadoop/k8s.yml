@@ -56,7 +56,7 @@ spec:
             type: Directory
           name: "hive_mysql"
       nodeSelector:
-        hadoop: "mysql"
+        hadoop_mysql: "mysql"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment

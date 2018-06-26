@@ -14,7 +14,7 @@ sed "s/{{REGION}}/${REGION}/g" | \
 sed "s/{{NGINX}}/${NGINX}/g" | \
 sed "s/{{NODE_IPS}}/${NODE_IPS}/g" | \
 sed "s/{{NAME_NODE_ADDR}}/${NAME_NODE_ADDR}/g"  \
-> k8s-tmp.yml
+> tmp/k8s.yml
 
 echo "use k8s-tmp.yaml to deploy the app"
 
