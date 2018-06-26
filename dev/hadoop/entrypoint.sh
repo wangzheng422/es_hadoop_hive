@@ -190,6 +190,9 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     hdfs dfs -mkdir -p /usr/hive/warehouse  
     hdfs dfs -mkdir -p /usr/hive/tmp  
     hdfs dfs -mkdir -p /usr/hive/log  
+    hdfs dfs -chmod +w /usr/hive/warehouse  
+    hdfs dfs -chmod +w /usr/hive/tmp  
+    hdfs dfs -chmod +w /usr/hive/log  
     hdfs dfs -chmod g+w /usr/hive/warehouse  
     hdfs dfs -chmod g+w /usr/hive/tmp  
     hdfs dfs -chmod g+w /usr/hive/log  
