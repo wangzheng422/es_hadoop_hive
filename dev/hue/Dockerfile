@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 RUN apt-get update -y
 
-RUN apt-get install -y software-properties-common
+RUN apt-get install -y software-properties-common sudo  curl ssh iproute2 net-tools dnsutils vim supervisor
 RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update -y
 
