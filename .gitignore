@@ -17,7 +17,7 @@ k8s-tmp.yml
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
