@@ -26,8 +26,8 @@ RUN sed --in-place='.ori' -e "s/\${JAVA_HOME}/\/usr\/lib\/jvm\/java-8-openjdk-am
 
 COPY conf/hive/mysql-connector-java-8.0.11.jar /opt/hive/lib/
 COPY conf/hive/hive-site.xml /opt/hive/conf/hive-node-hive-site.xml
-COPY conf/hive-log4j.properties /opt/hive/conf/
-COPY conf/hive-exec-log4j2.properties /opt/hive/conf/
+COPY conf/hive/hive-log4j.properties /opt/hive/conf/
+COPY conf/hive/hive-exec-log4j2.properties /opt/hive/conf/
 COPY conf/hive/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Pseudo-Distributed Operation
