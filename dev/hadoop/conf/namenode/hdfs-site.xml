@@ -4,10 +4,10 @@
         <value>1</value>
     </property>
     <property>
-       <name>dfs.permissions.enabled</name>
-       <value>false</value>
-   </property>
-   <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+    <property>
         <name>dfs.datanode.use.datanode.hostname</name>
         <value>false</value>
     </property>
@@ -24,12 +24,16 @@
         <value>false</value>
     </property>
     <property>
-         <name>dfs.namenode.http-address</name>
-         <value>{{node.name.ip}}:{{node.name.webport}}</value>
-         <description>Your NameNode hostname for http access.</description>
+        <name>dfs.namenode.http-address</name>
+        <value>{{node.name.ip}}:{{node.name.webport}}</value>
+        <description>Your NameNode hostname for http access.</description>
     </property>
     <property>
         <name>dfs.namenode.rpc-bind-host</name>
         <value>{{node.name.ip}}</value>
+    </property>
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
     </property>
 </configuration>
