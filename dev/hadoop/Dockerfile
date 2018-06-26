@@ -25,6 +25,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 RUN sed --in-place='.ori' -e "s/\${JAVA_HOME}/\/usr\/lib\/jvm\/java-8-openjdk-amd64/" etc/hadoop/hadoop-env.sh
 
 COPY conf/hive/mysql-connector-java-8.0.11.jar /opt/hive/lib/
+COPY conf/hive/hive-env.sh /opt/hive/conf/hive-env.sh
 COPY conf/hive/hive-site.xml /opt/hive/conf/hive-node-hive-site.xml
 COPY conf/hive/hive-log4j.properties /opt/hive/conf/
 COPY conf/hive/hive-exec-log4j2.properties /opt/hive/conf/

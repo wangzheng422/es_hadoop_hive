@@ -195,7 +195,7 @@ if [ "$SERVER_ROLE" = "nn" ]; then
     hdfs dfs -chmod g+w /usr/hive/log  
 
 
-    echo $PREFIX"Starting ssh..."
+    echo $PREFIX"Starting supervisor..."
     service supervisor start;
 
     # Needs additional configuration !!!!
