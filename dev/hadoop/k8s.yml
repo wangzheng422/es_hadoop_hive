@@ -4,8 +4,8 @@ metadata:
   annotations:
     loadbalancer.alauda.io/bind: '[{"container_port":3306,"protocol":"tcp","name":"{{NGINX}}","port":13306}]'
   labels:
-    service.alauda.io/name: hadoop-mysql
-  name: hadoop-mysql
+    service.alauda.io/name: hadoopmysql
+  name: hadoopmysql
   namespace: {{REGION}}
 spec:
   ports:
@@ -13,33 +13,33 @@ spec:
     protocol: TCP
     targetPort: 3306
   selector:
-    component: hadoop-mysql
+    component: hadoopmysql
   sessionAffinity: None
   type: ClusterIP
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: hadoop-mysql
+  name: hadoopmysql
   namespace: {{REGION}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: hadoop-mysql
+      component: hadoopmysql
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        service.alauda.io/name: hadoop-mysql
-        component: hadoop-mysql
+        service.alauda.io/name: hadoopmysql
+        component: hadoopmysql
     spec:
       containers:
       - env:
         - name: MYSQL_ROOT_PASSWORD
           value: "root"
-        name: hadoop-mysql
+        name: hadoopmysql
         image: {{REGISTRY}}/mysql:5.7
         imagePullPolicy: Always
         resources:
@@ -48,15 +48,15 @@ spec:
             memory: "2G"
         volumeMounts:
           - mountPath: "/var/lib/mysql"
-            name: "hive_mysql"
+            name: "hive-mysql"
             readOnly: false
       volumes:
         - hostPath:
             path: /alauda_data/hive_mysql
             type: Directory
-          name: "hive_mysql"
+          name: "hive-mysql"
       nodeSelector:
-        hadoop_mysql: "mysql"
+        hadoopmysql: "mysql"
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
