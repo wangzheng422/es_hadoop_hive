@@ -3,7 +3,7 @@
 set -e
 set -x
 
-docker build -f ./base.Dockerfile -t /es:base ./
+docker build -f ./base.Dockerfile -t es:base ./
 
 docker save es:base | gzip -c > tmp/es.base.tgz
 
