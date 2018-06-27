@@ -25,7 +25,7 @@
         </property>
         <property>
             <name>javax.jdo.option.ConnectionURL</name>
-            <value>jdbc:mysql://10.11.0.6:13306/hive?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useSSL=false</value>
+            <value>jdbc:mysql://{{ALB_ADDR}}:13306/hive?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useSSL=false</value>
         </property>
         <property>
             <name>javax.jdo.option.ConnectionDriverName</name>
@@ -42,6 +42,6 @@
         <property>
             <!-- 运行hive得主机地址及端口，即本机ip和端口号，启动metastore服务 -->
             <name>hive.metastore.uris</name>
-            <value>thrift://10.11.0.7:9083</value>
+            <value>thrift://{{NAME_NODE_ADDR}}:9083</value>
         </property>
     </configuration>  
