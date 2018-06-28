@@ -10,3 +10,6 @@ RUN cd /tmp \
     && chmod +x /usr/bin/jq \
     && yum install -y net-tools bind-utils
 
+USER elasticsearch
+
+RUN bin/elasticsearch-plugin install repository-hdfs
