@@ -5,6 +5,6 @@ set -x
 
 docker build -f ./base.Dockerfile -t hadoop:base ./
 
-docker save es:base | gzip -c > tmp/hadoop.base.tgz
+docker save hadoop:base | gzip -c > tmp/hadoop.base.tgz
 
 
