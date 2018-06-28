@@ -30,9 +30,9 @@ sed "s/{{NAME_NODE_ADDR}}/${NAME_NODE_ADDR}/g"  \
 
 docker build -t ${REGISTRY}/hue ./
 
-# docker push ${REGISTRY}/hue
+docker push ${REGISTRY}/hue
 
-docker save ${REGISTRY}/hue | gzip -c > tmp/hue.tgz
+# docker save ${REGISTRY}/hue | gzip -c > tmp/hue.tgz
 
 
 
