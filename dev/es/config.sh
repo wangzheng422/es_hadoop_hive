@@ -14,13 +14,24 @@ set -x
 # export DIR_ES_DATA="\/alauda_data\/es_data"
 # export DIR_ES_LOG="\/alauda_data\/es_log"
 
+# export ONE_BOX=11.11.174.85
+# export REGION=datelake
+# export SPACE_NAME=global
+# export REGISTRY=11.11.157.144:5000
+# export ALB_IP=11.11.157.144
+# export GIT_HOST=10.11.0.5:9988
+# export NGINX=haproxy-11-11-157-144
+# export AUTH_TOKEN=97898f42b8c95098df3f82037f43bf13fa33ff53
+# export DIR_ES_DATA="\/alauda_data\/es_data"
+# export DIR_ES_LOG="\/alauda_data\/es_log"
+
 export ONE_BOX=11.11.174.85
-export REGION=datelake
+export REGION=a6_datalake_klmy
 export SPACE_NAME=global
-export REGISTRY=11.11.157.144:5000
-export ALB_IP=11.11.157.144
+export REGISTRY=11.53.55.1:5000
+export ALB_IP=11.53.55.1
 export GIT_HOST=10.11.0.5:9988
-export NGINX=haproxy-11-11-157-144
+export NGINX=haproxy-11-53-55-1
 export AUTH_TOKEN=97898f42b8c95098df3f82037f43bf13fa33ff53
 export DIR_ES_DATA="\/alauda_data\/es_data"
 export DIR_ES_LOG="\/alauda_data\/es_log"
