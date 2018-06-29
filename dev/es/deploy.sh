@@ -21,12 +21,12 @@ docker build -t ${REGISTRY}/es ./
 docker push ${REGISTRY}/es
 
 # docker pull docker.elastic.co/kibana/kibana-oss:6.2.3
-# docker tag docker.elastic.co/kibana/kibana-oss:6.2.3 ${REGISTRY}/kibana
-# docker push ${REGISTRY}/kibana
+docker tag kibana ${REGISTRY}/kibana
+docker push ${REGISTRY}/kibana
 
 # docker pull elastichq/elasticsearch-hq 
-# docker tag elastichq/elasticsearch-hq  ${REGISTRY}/elasticsearch-hq
-# docker push ${REGISTRY}/elasticsearch-hq
+docker tag elasticsearch-hq  ${REGISTRY}/elasticsearch-hq
+docker push ${REGISTRY}/elasticsearch-hq
 
 # docker save ${REGISTRY}/es | gzip -c > tmp/es.tgz
 # docker save ${REGISTRY}/kibana | gzip -c > tmp/kibana.tgz
