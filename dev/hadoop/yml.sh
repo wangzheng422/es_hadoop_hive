@@ -16,7 +16,7 @@ sed "s/{{NODE_IPS}}/${NODE_IPS}/g" | \
 sed "s/{{NAME_NODE_ADDR}}/${NAME_NODE_ADDR}/g"  \
 > tmp/k8s.yml
 
-echo "use k8s-tmp.yaml to deploy the app"
+echo "use tmp/k8s.yaml to deploy the app"
 
 
 
